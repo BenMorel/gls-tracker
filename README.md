@@ -32,43 +32,58 @@ for a list of changes introduced by each further `0.x.0` version.
 
 ## Quickstart
 
-Instantiate the tracker with your GLS API username & password, and start querying:
+First, instantiate the tracker with your GLS API username & password:
 
 ```php
 use BenMorel\GLSTracker\GLSTracker;
+use BenMorel\GLSTracker\GLSTrackerException;
 
 // Instantiate the tracker
 $tracker = new GLSTracker('username', 'password');
+```
 
-// Track one or more parcels
-$parcels = $tracker->track('00AB1234', '00XY6789');
+You can now track a single parcel:
 
-// Loop through the parcels
+```php
+try {
+    $parcel = $tracker->trackOne('00AB1234');
 
-foreach ($parcels as $parcel) {
-    echo $parcel->trackid, ' ', $parcel->status, PHP_EOL;
-
-    foreach ($parcel->events as $event) {
-        echo $event->timestamp, ' ', $event->description, PHP_EOL;
+    if ($parcel !== null) {
+        echo $parcel->trackid, ' ', $parcel->status, PHP_EOL;
+    
+        foreach ($parcel->events as $event) {
+            echo "\t", $event->timestamp, ' ', $event->description, PHP_EOL;
+        }
+    } else {
+        echo 'Parcel not found!', PHP_EOL;
     }
+} catch (GLSTrackerException $e) {
+    // an error occurred
+    echo $e;
 }
 ```
 
-Note that `track()` returns the `Parcel` objects indexed by TrackID, so you can alternatively look them up directly:
+Or track several parcels at once:
 
-```
-$parcels = $tracker->track('00AB1234');
+```php
+try {
+    $parcels = $tracker->trackMany('00AB1234', '00XY6789');
 
-if (isset($parcels['00AB1234'])) {
-    $parcel = $parcels['00AB1234'];
-    echo $parcel->trackid, ' ', $parcel->status, PHP_EOL;
-} else {
-    // parcel not found
+    foreach ($parcels as $parcel) {
+        echo $parcel->trackid, ' ', $parcel->status, PHP_EOL;
+
+        foreach ($parcel->events as $event) {
+            echo "\t", $event->timestamp, ' ', $event->description, PHP_EOL;
+        }
+    }
+} catch (GLSTrackerException $e) {
+    // an error occurred
+    echo $e;
 }
 ```
 
-Note that there is a limit on the number of the number of search results that may be returned by the API in a single call.
-If you request too many trackIDs at a time, you'll get a `TooManySearchResultsException`.
+Note that there is a limit on the number of search results that may be returned by the API in a single call.
+If you request too many TrackIDs at a time, you may get a `TooManySearchResultsException`.
 
 ## Error handling
 
@@ -96,4 +111,4 @@ Base class for all exceptions.
     A network error occurred and no response has been received from the API.
 
 These fine-grained exceptions allow you to act automatically upon each type of failure.
-For example, when receiving a `NetworkException`, you can schedule a retry a few moments later.
+For example, when receiving a `NetworkException`, you may schedule a retry a few moments later.

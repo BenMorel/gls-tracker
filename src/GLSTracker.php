@@ -54,15 +54,33 @@ class GLSTracker
     }
 
     /**
-     * Tracks one or more parcels by TrackID.
+     * Tracks a single parcel by TrackID.
+     *
+     * @param string $trackID
+     *
+     * @return Parcel|null The parcel, or null if not found.
+     *
+     * @throws GLSTrackerException If an error occurs.
+     */
+    public function trackOne(string $trackID) : ?Parcel
+    {
+        $parcels = $this->trackMany($trackID);
+
+        return $parcels[0] ?? null;
+    }
+
+    /**
+     * Tracks several parcels by TrackID.
+     *
+     * The resulting array may contain less parcels than requested, if some parcels are not found.
      *
      * @param string ...$trackIDs Zero or more TrackIDs.
      *
-     * @return Parcel[] The Parcel models, indexed by TrackID.
+     * @return Parcel[] The Parcel models.
      *
-     * @throws GLSTrackerException If an error occurs while communicating with the API.
+     * @throws GLSTrackerException If an error occurs.
      */
-    public function track(string ...$trackIDs) : array
+    public function trackMany(string ...$trackIDs) : array
     {
         if (! $trackIDs) {
             return [];
@@ -185,7 +203,7 @@ class GLSTracker
                 $parcelModel->events[] = $eventModel;
             }
 
-            $parcelModels[$parcelModel->trackid] = $parcelModel;
+            $parcelModels[] = $parcelModel;
         }
 
         return $parcelModels;
