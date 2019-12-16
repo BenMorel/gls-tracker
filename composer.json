@@ -3,6 +3,12 @@
     "description": "A library to track GLS parcels using the GLS Track & Trace Web API",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "GLS",
+        "Parcel",
+        "Tracker",
+        "Tracking"
+    ],
     "require": {
         "php": ">=7.3",
         "ext-json": "*",
