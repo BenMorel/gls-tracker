@@ -42,6 +42,12 @@ use BenMorel\GLSTracker\GLSTrackerException;
 $tracker = new GLSTracker('username', 'password');
 ```
 
+You can optionally pass a language code as third parameter, to get results returned in another language (defaults to `en`):
+
+```php
+$tracker = new GLSTracker('username', 'password', 'fr');
+```
+
 You can now track a single parcel:
 
 ```php

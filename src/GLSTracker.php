@@ -40,17 +40,24 @@ class GLSTracker
     private $password;
 
     /**
+     * @var string
+     */
+    private $language;
+
+    /**
      * GLSTrackingClient constructor.
      *
      * @param string $username
      * @param string $password
+     * @param string $language
      */
-    public function __construct(string $username, string $password)
+    public function __construct(string $username, string $password, string $language = 'en')
     {
         $this->httpClient = new Client();
 
         $this->username = $username;
         $this->password = $password;
+        $this->language = $language;
     }
 
     /**
@@ -99,6 +106,9 @@ class GLSTracker
                 RequestOptions::AUTH => [
                     $this->username,
                     $this->password
+                ],
+                RequestOptions::HEADERS => [
+                    'Accept-Language' => $this->language
                 ]
             ]);
         } catch (GuzzleException $e) {
