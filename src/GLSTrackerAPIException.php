@@ -16,6 +16,7 @@ use GuzzleHttp\Exception\GuzzleException;
  * 0004: Input validation error
  * 0005: Missing input parameter
  * 0006: Address not supported
+ * 0007: Too many search results
  * 0008: Not acceptable (the content type of the POST request is not acceptable)
  * 0009: Not authorized (invalid username or password)
  * 0010: Page not found
@@ -35,6 +36,7 @@ class GLSTrackerAPIException extends GLSTrackerException
         '0002' => Exception\UserAccountBlockedException::class,
         '0003' => Exception\MissingRightsException::class,
         '0004' => Exception\InputValidationException::class,
+        '0007' => Exception\TooManySearchResultsException::class,
         '0009' => Exception\NotAuthorizedException::class
     ];
 

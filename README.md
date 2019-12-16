@@ -68,7 +68,4 @@ if (isset($parcels['00AB1234'])) {
 ```
 
 Note that there is a limit on the number of the number of search results that may be returned by the API in a single call.
-If you request too many trackIDs at a time, you'll get a `GLSTrackerException`, such as:
-
-> `GLSTrackerException`:  
-> The query yielded too many search results. Please try to be more specify in your query.
+If you request too many trackIDs at a time, you'll get a `TooManySearchResultsException`.
