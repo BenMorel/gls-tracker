@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace BenMorel\GLSTracker;
+namespace BenMorel\GLSTracker\Exception;
 
+use BenMorel\GLSTracker\GLSTrackerException;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
- * Exception thrown following an error returned by the GLS API.
+ * Thrown when receiving a well-defined error from the GLS API.
  *
  * Documented exit codes / messages:
  *
@@ -26,18 +27,18 @@ use GuzzleHttp\Exception\GuzzleException;
  * If the exitCode matches an exception relevant for this library, a subclass of this exception will be thrown.
  * For example, an exitCode of 0002 will throw an Exception\UserAccountBlockedException.
  *
- * If an exitCode is unknown, or is not expected to be thrown due to the way this library uses the API, a root
- * GLSTrackerException is thrown, not a subclass. For example, 0010 is reported when a 404 Not Found error occurs, and
+ * If an exitCode is unknown, or is not expected to be thrown due to the way this library uses the API, a base
+ * APIException is thrown, not a subclass. For example, 0010 is reported when a 404 Not Found error occurs, and
  * should never occur in the context of this library; as such, it does not need a subclass.
  */
-class GLSTrackerAPIException extends GLSTrackerException
+class APIException extends GLSTrackerException
 {
     private const EXCEPTION_CLASSES = [
-        '0002' => Exception\UserAccountBlockedException::class,
-        '0003' => Exception\MissingRightsException::class,
-        '0004' => Exception\InputValidationException::class,
-        '0007' => Exception\TooManySearchResultsException::class,
-        '0009' => Exception\NotAuthorizedException::class
+        '0002' => APIException\UserAccountBlockedException::class,
+        '0003' => APIException\MissingRightsException::class,
+        '0004' => APIException\InputValidationException::class,
+        '0007' => APIException\TooManySearchResultsException::class,
+        '0009' => APIException\NotAuthorizedException::class
     ];
 
     /**

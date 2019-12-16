@@ -9,6 +9,6 @@ use Exception;
 /**
  * Base class for all exceptions that may be thrown by GLSTracker.
  */
-class GLSTrackerException extends Exception
+abstract class GLSTrackerException extends Exception
 {
 }

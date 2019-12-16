@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace BenMorel\GLSTracker;
 
+use BenMorel\GLSTracker\Exception\APIException;
+use BenMorel\GLSTracker\Exception\InvalidResponseException;
+use BenMorel\GLSTracker\Exception\NetworkException;
 use BenMorel\GLSTracker\Model\Event;
 use BenMorel\GLSTracker\Model\Parcel;
 use BenMorel\GLSTracker\Model\Reference;
@@ -101,12 +104,12 @@ class GLSTracker
         }
 
         if ($response === null) {
-            throw new GLSTrackerException('A network error occurred while querying the GLS API.', 0, $guzzleException);
+            throw new NetworkException('A network error occurred while querying the GLS API.', 0, $guzzleException);
         }
 
         $error = $jsonResponse['errors'][0];
 
-        throw GLSTrackerAPIException::create(
+        throw APIException::create(
             $error['exitCode'],
             $error['exitMessage'],
             $error['description'],
@@ -133,7 +136,7 @@ class GLSTracker
         }
 
         if ($contentType !== 'application/json') {
-            throw new GLSTrackerException('The HTTP API response is not a JSON document.', 0, $guzzleException);
+            throw new InvalidResponseException('The HTTP API response is not a JSON document.', 0, $guzzleException);
         }
 
         $json = (string) $response->getBody();
@@ -141,7 +144,7 @@ class GLSTracker
         try {
             return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $jsonException) {
-            throw new GLSTrackerException('The HTTP API response contains a malformed JSON document.', 0, $jsonException);
+            throw new InvalidResponseException('The HTTP API response contains a malformed JSON document.', 0, $jsonException);
         }
     }
 
