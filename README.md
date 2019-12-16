@@ -69,3 +69,31 @@ if (isset($parcels['00AB1234'])) {
 
 Note that there is a limit on the number of the number of search results that may be returned by the API in a single call.
 If you request too many trackIDs at a time, you'll get a `TooManySearchResultsException`.
+
+## Error handling
+
+If an error occurs while querying the API, a `GLSTrackerException` is always thrown.
+
+Exception hierarchy:
+
+- `GLSTrackerException`  
+Base class for all exceptions.
+    - `Exception\APIException`  
+    A well-known error response has been received from the API.
+        - `Exception\APIException\InputValidationException`  
+        An invalid TrackID has been given.
+        - `Exception\APIException\MissingRightsException`  
+        The user can access the API but doesn't have the necessary rights.
+        - `Exception\APIException\NotAuthorizedException`  
+        The username or password is incorrect.
+        - `Exception\APIException\TooManySearchResultsException`  
+        Too many search results would be returned; you should request less TrackIDs.
+        - `Exception\APIException\UserAccountBlockedException`  
+        The user account is blocked.
+    - `Exception\InvalidResponseException`  
+    An invalid response has been received from the API, and this library cannot decode it.
+    - `Exception\NetworkException`  
+    A network error occurred and no response has been received from the API.
+
+These fine-grained exceptions allow you to act automatically upon each type of failure.
+For example, when receiving a `NetworkException`, you can schedule a retry a few moments later.

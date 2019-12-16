@@ -58,15 +58,15 @@ class GLSTracker
      *
      * @param string ...$trackIDs One or more TrackIDs.
      *
-     * @return Parcel[] The Parcel models, indexed by trackID.
+     * @return Parcel[] The Parcel models, indexed by TrackID.
      *
-     * @throws InvalidArgumentException If no trackIDs are given.
+     * @throws InvalidArgumentException If no TrackIDs are given.
      * @throws GLSTrackerException      If an error occurs while communicating with the API.
      */
     public function track(string ...$trackIDs) : array
     {
         if (! $trackIDs) {
-            throw new InvalidArgumentException('Missing track IDs.');
+            throw new InvalidArgumentException('No TrackIDs have been given.');
         }
 
         $trackIDs = implode(',', $trackIDs);

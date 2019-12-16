@@ -8,7 +8,7 @@ use BenMorel\GLSTracker\GLSTrackerException;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
- * Thrown when receiving a well-defined error from the GLS API.
+ * Thrown when receiving a well-known error from the GLS API.
  *
  * Documented exit codes / messages:
  *
