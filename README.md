@@ -3,6 +3,7 @@
 A PHP library to track GLS parcels using the GLS Track & Trace Web API.
 
 [![Latest Stable Version](https://poser.pugx.org/benmorel/gls-tracker/v/stable)](https://packagist.org/packages/benmorel/gls-tracker)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](http://opensource.org/licenses/MIT)
 
 ## Installation
 
